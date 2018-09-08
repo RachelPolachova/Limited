@@ -36,7 +36,7 @@ class AddCategoryViewController: UIViewController  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        UINavigationBar.appearance().backgroundColor = UIColor.green
         // Do any additional setup after loading the view.
     }
 
@@ -47,7 +47,6 @@ class AddCategoryViewController: UIViewController  {
         if let name = nameTextField?.text, !name.isEmpty {
             addDelegate.categoryAdded(name: nameTextField!.text!, color: categoryColor)
             dismiss(animated: true, completion: nil)
-            print("add button pressed")
 
         } else {
 
@@ -55,7 +54,6 @@ class AddCategoryViewController: UIViewController  {
             let action = UIAlertAction(title: "OK", style: .default) { (alert) in }
             alert.addAction(action)
             present(alert, animated: true, completion: nil)
-            print("nil")
 
         }
         
@@ -67,7 +65,6 @@ class AddCategoryViewController: UIViewController  {
     @IBAction func cancelButtonPressed(_ sender: UIButton) {
         
         dismiss(animated: true, completion: nil)
-        print("cancel button pressed")
         
     }
     @IBAction func redSliderAction(_ sender: UISlider) {

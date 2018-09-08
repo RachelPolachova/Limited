@@ -46,7 +46,16 @@ class CategoryTableViewController: UITableViewController, SideAddDelegate {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       
+        performSegue(withIdentifier: "goToItems", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationVC = segue.destination as! ItemTableViewController
+        
+        if let indexPath = tableView.indexPathForSelectedRow {
+            destinationVC.selectedCategory = categories?[indexPath.row]
+        }
+        
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -101,6 +110,9 @@ class CategoryTableViewController: UITableViewController, SideAddDelegate {
     }
     
 }
+
+
+// MARK: - UIColor to HEX and back
 
 extension UIColor {
     
