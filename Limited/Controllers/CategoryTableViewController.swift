@@ -16,15 +16,21 @@ class CategoryTableViewController: UITableViewController, SideAddDelegate {
     var categories : Results<Category>?
     
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.barTintColor = .darkGray
+        self.navigationController?.navigationBar.tintColor = .blue
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+        self.navigationController?.navigationBar.isTranslucent = false
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         print(realm.configuration.fileURL?.deletingLastPathComponent().path)
-        
         loadCategory()
-        
+
     }
+
+    
     
     // MARK: - TableView Delegate Methods
     
@@ -57,20 +63,29 @@ class CategoryTableViewController: UITableViewController, SideAddDelegate {
         }
         
     }
+
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = deleteAction(at: indexPath)
+        return UISwipeActionsConfiguration(actions: [delete])
+    }
     
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            
+    func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
+        
+        let action = UIContextualAction(style: .normal, title: "Delete") { (action, view, completion) in
             do {
-                try realm.write {
-                    realm.delete(categories![indexPath.row])
-                    tableView.reloadData()
+                try self.realm.write {
+                    self.realm.delete(self.categories![indexPath.row])
+                    self.loadCategory()
                 }
             } catch {
-                print("Error deleting category: \(error)")
+                print("Error deleting item: \(error)")
             }
-            
         }
+        
+        action.backgroundColor = .red
+        action.image = #imageLiteral(resourceName: "wastebin24.png")
+        
+        return action
     }
     
     

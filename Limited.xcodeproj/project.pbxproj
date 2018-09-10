@@ -17,6 +17,11 @@
 		CC2CF6282142CFDC00F9EDB6 /* CategoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2CF6272142CFDC00F9EDB6 /* CategoryTableViewController.swift */; };
 		CC2CF62D2142D24C00F9EDB6 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2CF62C2142D24C00F9EDB6 /* Category.swift */; };
 		CC2CF62F2142DF9000F9EDB6 /* AddCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2CF62E2142DF9000F9EDB6 /* AddCategoryViewController.swift */; };
+		CC51DEB421456423005CCC7A /* images in Resources */ = {isa = PBXBuildFile; fileRef = CC51DEB321456423005CCC7A /* images */; };
+		CC5471C92145127000C8F9D1 /* CurrentItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5471C82145127000C8F9D1 /* CurrentItemViewController.swift */; };
+		CC5471CB214516F400C8F9D1 /* AddItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5471CA214516F400C8F9D1 /* AddItemViewController.swift */; };
+		CC5471CD214531E200C8F9D1 /* EditCurrentItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5471CC214531E200C8F9D1 /* EditCurrentItemViewController.swift */; };
+		CC6C73EE214666FF00ED3D12 /* ItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6C73ED214666FF00ED3D12 /* ItemTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +39,11 @@
 		CC2CF6272142CFDC00F9EDB6 /* CategoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewController.swift; sourceTree = "<group>"; };
 		CC2CF62C2142D24C00F9EDB6 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		CC2CF62E2142DF9000F9EDB6 /* AddCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryViewController.swift; sourceTree = "<group>"; };
+		CC51DEB321456423005CCC7A /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = "<group>"; };
+		CC5471C82145127000C8F9D1 /* CurrentItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentItemViewController.swift; sourceTree = "<group>"; };
+		CC5471CA214516F400C8F9D1 /* AddItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemViewController.swift; sourceTree = "<group>"; };
+		CC5471CC214531E200C8F9D1 /* EditCurrentItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCurrentItemViewController.swift; sourceTree = "<group>"; };
+		CC6C73ED214666FF00ED3D12 /* ItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +70,7 @@
 			isa = PBXGroup;
 			children = (
 				CC2CF6142142CDAC00F9EDB6 /* Limited */,
+				CC51DEB321456423005CCC7A /* images */,
 				CC2CF6132142CDAC00F9EDB6 /* Products */,
 				CD85D90584A304E99A7860B8 /* Pods */,
 				81AE132352806106A2585345 /* Frameworks */,
@@ -94,6 +105,9 @@
 				CC2CF6272142CFDC00F9EDB6 /* CategoryTableViewController.swift */,
 				CC2CF62E2142DF9000F9EDB6 /* AddCategoryViewController.swift */,
 				CC009FF12144474200E5AFF7 /* ItemTableViewController.swift */,
+				CC5471CA214516F400C8F9D1 /* AddItemViewController.swift */,
+				CC5471C82145127000C8F9D1 /* CurrentItemViewController.swift */,
+				CC5471CC214531E200C8F9D1 /* EditCurrentItemViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -102,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				CC2CF6192142CDAC00F9EDB6 /* Main.storyboard */,
+				CC6C73ED214666FF00ED3D12 /* ItemTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -184,6 +199,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC51DEB421456423005CCC7A /* images in Resources */,
 				CC2CF6202142CDAE00F9EDB6 /* LaunchScreen.storyboard in Resources */,
 				CC2CF61D2142CDAE00F9EDB6 /* Assets.xcassets in Resources */,
 				CC2CF61B2142CDAC00F9EDB6 /* Main.storyboard in Resources */,
@@ -239,9 +255,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC009FF02144463100E5AFF7 /* Item.swift in Sources */,
+				CC5471C92145127000C8F9D1 /* CurrentItemViewController.swift in Sources */,
+				CC6C73EE214666FF00ED3D12 /* ItemTableViewCell.swift in Sources */,
+				CC5471CD214531E200C8F9D1 /* EditCurrentItemViewController.swift in Sources */,
 				CC2CF62F2142DF9000F9EDB6 /* AddCategoryViewController.swift in Sources */,
 				CC2CF6162142CDAC00F9EDB6 /* AppDelegate.swift in Sources */,
 				CC2CF6282142CFDC00F9EDB6 /* CategoryTableViewController.swift in Sources */,
+				CC5471CB214516F400C8F9D1 /* AddItemViewController.swift in Sources */,
 				CC009FF22144474200E5AFF7 /* ItemTableViewController.swift in Sources */,
 				CC2CF62D2142D24C00F9EDB6 /* Category.swift in Sources */,
 			);

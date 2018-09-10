@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class ItemTableViewController: UITableViewController {
+class ItemTableViewController: UITableViewController, SideAddItemDelegate {
 
 
     
@@ -19,13 +19,20 @@ class ItemTableViewController: UITableViewController {
     
     var selectedCategory : Category? {
         didSet {
-            loadItems()
+            barNavigation.title = selectedCategory?.name
+            
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        barNavigation.title = selectedCategory?.name
+        loadItems()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.barTintColor = UIColor(hex: selectedCategory!.color)
+        self.navigationController?.navigationBar.tintColor = .white
 
     }
     
@@ -37,14 +44,13 @@ class ItemTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as! ItemTableViewCell
         
         if let item = toDoItems?[indexPath.row] {
-            cell.textLabel?.text = item.name + " " + String(item.numberOfDone)
+            cell.setItem(item: item)
         } else {
             cell.textLabel?.text = "No Items Added"
         }
-        
         
         return cell
         
@@ -69,6 +75,7 @@ class ItemTableViewController: UITableViewController {
         }
         
         action.backgroundColor = .red
+        action.image = #imageLiteral(resourceName: "wastebin24.png")
         
         return action
     }
@@ -81,7 +88,8 @@ class ItemTableViewController: UITableViewController {
     func doneAction(at indexPath: IndexPath) -> UIContextualAction {
         let todo = toDoItems![indexPath.row]
         let action = UIContextualAction(style: .normal, title: "Done") { (action, view, completetion) in
-            print("Done \(todo.name)")
+            view.backgroundColor = .red
+            
             do {
                 try self.realm.write {
                     todo.numberOfDone += 1
@@ -93,9 +101,29 @@ class ItemTableViewController: UITableViewController {
             completetion(true)
         }
         
-        action.backgroundColor = .green
+        action.image = #imageLiteral(resourceName: "done24.png")
+        action.backgroundColor = UIColor(hex: "45bc2d")
+        
+        
         return action
     }
+    
+    
+    // MARK : - Current Item delegate methods
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "goToCurrentItem", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationVC = segue.destination as! CurrentItemViewController
+        if let indexPath = tableView.indexPathForSelectedRow {
+            destinationVC.selectedItem = toDoItems?[indexPath.row]
+        }
+        
+    }
+    
+    
     
     func loadItems() {
         toDoItems = selectedCategory?.items.sorted(byKeyPath: "name")
@@ -104,33 +132,27 @@ class ItemTableViewController: UITableViewController {
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         
-        var nameTextField = UITextField()
+        let selectionVC = storyboard?.instantiateViewController(withIdentifier: "addItem") as! AddItemViewController
+        selectionVC.addDelegate = self
+        present(selectionVC, animated: true, completion: nil)
         
-        let alert = UIAlertController(title: "Add new item.", message: nil, preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive) { (alert) in }
-        let addAction = UIAlertAction(title: "Add", style: .default) { (alert) in
-            let newItem = Item()
-            newItem.name = nameTextField.text!
-            
-            do {
-                try self.realm.write {
-                    self.realm.add(newItem)
-                    self.selectedCategory?.items.append(newItem)
-                    self.loadItems()
-                }
-            } catch {
-                print("Error adding new item: \(error)")
+    }
+    
+    func itemAdded(name: String, description: String) {
+        let newItem = Item()
+        newItem.name = name
+        newItem.itemDescription = description
+        newItem.color = selectedCategory!.color
+        do {
+            try self.realm.write {
+                self.realm.add(newItem)
+                self.selectedCategory?.items.append(newItem)
+                self.loadItems()
             }
+        } catch {
+            print("Error adding new item: \(error)")
+            
         }
-        
-        alert.addTextField { (textField) in
-            nameTextField = textField
-        }
-        alert.addAction(addAction)
-        alert.addAction(cancelAction)
-        present(alert, animated: true, completion: nil)
-        
-        self.tableView.reloadData()
     }
     
 }

@@ -18,7 +18,6 @@ class AddCategoryViewController: UIViewController  {
     @IBOutlet weak var nameTextField: UITextField?
     
     var addDelegate : SideAddDelegate!
-    let array = ["1", "2", "3", "4", "5", "6"]
     
     @IBOutlet weak var redLabel: UILabel!
     @IBOutlet weak var greenLabel: UILabel!
@@ -45,6 +44,7 @@ class AddCategoryViewController: UIViewController  {
         
         
         if let name = nameTextField?.text, !name.isEmpty {
+            
             addDelegate.categoryAdded(name: nameTextField!.text!, color: categoryColor)
             dismiss(animated: true, completion: nil)
 
@@ -56,8 +56,6 @@ class AddCategoryViewController: UIViewController  {
             present(alert, animated: true, completion: nil)
 
         }
-        
-//        addDelegate.categoryAdded(name: nameTextField.text!)
         
         
     }
