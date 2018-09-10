@@ -116,9 +116,20 @@ class ItemTableViewController: UITableViewController, SideAddItemDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destinationVC = segue.destination as! CurrentItemViewController
-        if let indexPath = tableView.indexPathForSelectedRow {
-            destinationVC.selectedItem = toDoItems?[indexPath.row]
+        
+        switch segue.identifier {
+        case "goToAddItem":
+            
+            let destinationVC = segue.destination as! AddItemViewController
+            destinationVC.addDelegate = self
+            
+        case "goToCurrentItem":
+            let destinationVC = segue.destination as! CurrentItemViewController
+            if let indexPath = tableView.indexPathForSelectedRow {
+                destinationVC.selectedItem = toDoItems?[indexPath.row]
+            }
+        default:
+            break
         }
         
     }
@@ -132,9 +143,8 @@ class ItemTableViewController: UITableViewController, SideAddItemDelegate {
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         
-        let selectionVC = storyboard?.instantiateViewController(withIdentifier: "addItem") as! AddItemViewController
-        selectionVC.addDelegate = self
-        present(selectionVC, animated: true, completion: nil)
+        performSegue(withIdentifier: "goToAddItem", sender: self)
+        
         
     }
     

@@ -32,7 +32,7 @@ class AddItemViewController: UIViewController {
         
         if let nameItem = nameOfItem.text, let descriptionItem = descriptionOfItem.text {
             addDelegate.itemAdded(name: nameItem, description: descriptionItem)
-            dismiss(animated: true, completion: nil)
+            _ = navigationController?.popViewController(animated: true)
         } else {
             
             let alert = UIAlertController(title: "Name your item", message: nil, preferredStyle: .alert)

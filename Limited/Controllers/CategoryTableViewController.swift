@@ -18,14 +18,14 @@ class CategoryTableViewController: UITableViewController, SideAddDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.barTintColor = .darkGray
-        self.navigationController?.navigationBar.tintColor = .blue
+        self.navigationController?.navigationBar.tintColor = .white
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
         self.navigationController?.navigationBar.isTranslucent = false
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(realm.configuration.fileURL?.deletingLastPathComponent().path)
+        print(realm.configuration.fileURL?.deletingLastPathComponent().path ?? "no path")
         loadCategory()
 
     }
@@ -56,11 +56,23 @@ class CategoryTableViewController: UITableViewController, SideAddDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destinationVC = segue.destination as! ItemTableViewController
         
-        if let indexPath = tableView.indexPathForSelectedRow {
-            destinationVC.selectedCategory = categories?[indexPath.row]
+        switch segue.identifier {
+        case "goToAddCategory":
+            let destinationVC = segue.destination as! AddCategoryViewController
+            destinationVC.addDelegate = self
+            
+        case "goToItems":
+            let destinationVC = segue.destination as! ItemTableViewController
+            
+            if let indexPath = tableView.indexPathForSelectedRow {
+                destinationVC.selectedCategory = categories?[indexPath.row]
+            }
+        default:
+            break
         }
+        
+        
         
     }
 
@@ -72,13 +84,26 @@ class CategoryTableViewController: UITableViewController, SideAddDelegate {
     func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
         
         let action = UIContextualAction(style: .normal, title: "Delete") { (action, view, completion) in
+            
             do {
+                
                 try self.realm.write {
+                    
+                    for _ in 0..<self.categories![indexPath.row].items.count {
+                        
+                        self.realm.delete(self.categories![indexPath.row].items[0])
+                        
+                    }
+                    
                     self.realm.delete(self.categories![indexPath.row])
-                    self.loadCategory()
+                    
                 }
+                self.loadCategory()
+                
             } catch {
-                print("Error deleting item: \(error)")
+                
+                print("Error deleting data: \(error)")
+                
             }
         }
         
@@ -90,10 +115,8 @@ class CategoryTableViewController: UITableViewController, SideAddDelegate {
     
     
     @IBAction func addCategoryButtonPressed(_ sender: UIBarButtonItem) {
-        
-        let selectionVC = storyboard?.instantiateViewController(withIdentifier: "addCategory") as! AddCategoryViewController
-        selectionVC.addDelegate = self
-        present(selectionVC, animated: true, completion: nil)
+
+        performSegue(withIdentifier: "goToAddCategory", sender: self)
         
     }
     

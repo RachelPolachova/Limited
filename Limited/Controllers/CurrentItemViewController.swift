@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import AVFoundation
 
 class CurrentItemViewController: UIViewController, SideEditItemDelegate {
 
@@ -16,6 +17,20 @@ class CurrentItemViewController: UIViewController, SideEditItemDelegate {
     @IBOutlet weak var currentItemBarNavigator: UINavigationItem!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var importantLabel: UILabel!
+    
+    
+    @IBOutlet weak var secondsLabel: UILabel!
+    @IBOutlet weak var minutesLabel: UILabel!
+    @IBOutlet weak var startTimerButton: UIButton!
+    @IBOutlet weak var stopTimerButton: UIButton!
+    
+    var seconds = 15
+    var timer = Timer()
+    var cycleCounter : Int = 0
+    
+    
+    var audioPlayer = AVAudioPlayer()
+    
     
     let realm = try! Realm()
     var selectedItem : Item? {
@@ -28,6 +43,15 @@ class CurrentItemViewController: UIViewController, SideEditItemDelegate {
         super.viewDidLoad()
         
         loadItem()
+        updateColor()
+        
+        do {
+            let audioPath = Bundle.main.path(forResource: "timerDone", ofType: ".mp3")
+            try audioPlayer = AVAudioPlayer(contentsOf: URL(fileURLWithPath: audioPath!))
+            
+        } catch {
+            print("Error print playing alarm when timer is done: \(error)")
+        }
         
     }
 
@@ -57,7 +81,6 @@ class CurrentItemViewController: UIViewController, SideEditItemDelegate {
     func loadItem() {
         importantLabel.text = selectedItem!.isImportant ? "Important" : "Not important"
         
-        numberLabel.textColor = UIColor(hex: selectedItem!.color)
         
         if let desc = selectedItem?.itemDescription {
             descriptionLabel.text = desc
@@ -70,6 +93,74 @@ class CurrentItemViewController: UIViewController, SideEditItemDelegate {
         } else {
             numberLabel.text = "0"
         }
+    }
+    
+    func updateColor() {
+        numberLabel.textColor = UIColor(hex: selectedItem!.color)
+        startTimerButton.backgroundColor = UIColor(hex: selectedItem!.color)
+        stopTimerButton.backgroundColor = UIColor(hex: selectedItem!.color)
+    }
+    
+    @IBAction func startTimerPressed(_ sender: UIButton) {
+        
+        if cycleCounter < 4 {
+            cycleCounter += 1
+        } else {
+            cycleCounter = 0
+        }
+        
+        startTimerButton.isEnabled = false
+        startTimerButton.backgroundColor = UIColor(hex: selectedItem!.color)!.withAlphaComponent(0.5)
+        
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(CurrentItemViewController.counter), userInfo: nil, repeats: true)
+        
+    }
+    
+    @objc func counter() {
+        seconds -= 1
+        
+        updateTime(seconds: seconds)
+        
+        if (seconds == 0) {
+            timer.invalidate()
+            audioPlayer.play()
+            
+            do {
+                try realm.write {
+                    selectedItem?.numberOfDone += 1
+                }
+            } catch {
+                print("Error updating numberOfDone after timer is done: \(error)")
+            }
+            loadItem()
+        }
+    }
+    
+    @IBAction func stopTimerPressed(_ sender: UIButton) {
+        
+        seconds = (cycleCounter < 4) ? 15 : 5
+
+        timer.invalidate()
+        
+        updateTime(seconds: seconds)
+
+        startTimerButton.isEnabled = true
+        startTimerButton.backgroundColor? = UIColor(hex: selectedItem!.color)!
+        
+        audioPlayer.stop()
+        
+    }
+    
+    func secondsToHoursMinutesSeconds (seconds : Int) -> (Int, Int, Int) {
+        return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
+    }
+    
+    func updateTime(seconds: Int) {
+        
+        let (_, m, s) = secondsToHoursMinutesSeconds(seconds: seconds)
+        
+        secondsLabel.text = (s < 10 ) ? ": 0" + String(s) : ": " + String(s)
+        minutesLabel.text = (m < 10) ? "0" + String(m) : String(m)
     }
     
     

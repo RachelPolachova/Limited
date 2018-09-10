@@ -22,6 +22,7 @@
 		CC5471CB214516F400C8F9D1 /* AddItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5471CA214516F400C8F9D1 /* AddItemViewController.swift */; };
 		CC5471CD214531E200C8F9D1 /* EditCurrentItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5471CC214531E200C8F9D1 /* EditCurrentItemViewController.swift */; };
 		CC6C73EE214666FF00ED3D12 /* ItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6C73ED214666FF00ED3D12 /* ItemTableViewCell.swift */; };
+		CC6C73F02146B13F00ED3D12 /* timerDone.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CC6C73EF2146B13F00ED3D12 /* timerDone.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		CC5471CA214516F400C8F9D1 /* AddItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemViewController.swift; sourceTree = "<group>"; };
 		CC5471CC214531E200C8F9D1 /* EditCurrentItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCurrentItemViewController.swift; sourceTree = "<group>"; };
 		CC6C73ED214666FF00ED3D12 /* ItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTableViewCell.swift; sourceTree = "<group>"; };
+		CC6C73EF2146B13F00ED3D12 /* timerDone.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = timerDone.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 			children = (
 				CC2CF6142142CDAC00F9EDB6 /* Limited */,
 				CC51DEB321456423005CCC7A /* images */,
+				CC6C73F12146B14400ED3D12 /* sounds */,
 				CC2CF6132142CDAC00F9EDB6 /* Products */,
 				CD85D90584A304E99A7860B8 /* Pods */,
 				81AE132352806106A2585345 /* Frameworks */,
@@ -128,6 +131,14 @@
 				CC009FEF2144463100E5AFF7 /* Item.swift */,
 			);
 			path = "Data Model";
+			sourceTree = "<group>";
+		};
+		CC6C73F12146B14400ED3D12 /* sounds */ = {
+			isa = PBXGroup;
+			children = (
+				CC6C73EF2146B13F00ED3D12 /* timerDone.mp3 */,
+			);
+			path = sounds;
 			sourceTree = "<group>";
 		};
 		CD85D90584A304E99A7860B8 /* Pods */ = {
@@ -199,6 +210,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC6C73F02146B13F00ED3D12 /* timerDone.mp3 in Resources */,
 				CC51DEB421456423005CCC7A /* images in Resources */,
 				CC2CF6202142CDAE00F9EDB6 /* LaunchScreen.storyboard in Resources */,
 				CC2CF61D2142CDAE00F9EDB6 /* Assets.xcassets in Resources */,

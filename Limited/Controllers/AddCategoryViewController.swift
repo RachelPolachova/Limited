@@ -29,7 +29,7 @@ class AddCategoryViewController: UIViewController  {
     var redColor : Float = 0
     var greenColor : Float = 0
     var blueColor : Float = 0
-    var categoryColor = UIColor(red: 128, green: 128, blue: 128, alpha: 1.0)
+    var categoryColor = UIColor(hex: "3F3F3F")
     
     
     
@@ -45,8 +45,8 @@ class AddCategoryViewController: UIViewController  {
         
         if let name = nameTextField?.text, !name.isEmpty {
             
-            addDelegate.categoryAdded(name: nameTextField!.text!, color: categoryColor)
-            dismiss(animated: true, completion: nil)
+            addDelegate.categoryAdded(name: nameTextField!.text!, color: categoryColor!)
+            _ = navigationController?.popViewController(animated: true)
 
         } else {
 
