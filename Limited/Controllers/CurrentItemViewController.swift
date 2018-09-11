@@ -19,15 +19,15 @@ class CurrentItemViewController: UIViewController, SideEditItemDelegate {
     @IBOutlet weak var importantLabel: UILabel!
     
     
-    @IBOutlet weak var secondsLabel: UILabel!
-    @IBOutlet weak var minutesLabel: UILabel!
+    @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var startTimerButton: UIButton!
     @IBOutlet weak var stopTimerButton: UIButton!
     
     var seconds = 15
     var timer = Timer()
     var cycleCounter : Int = 0
-    
+    var timerSeconds = "0"
+    var timerMinutes = "0"
     
     var audioPlayer = AVAudioPlayer()
     
@@ -42,8 +42,11 @@ class CurrentItemViewController: UIViewController, SideEditItemDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        descriptionLabel.lineBreakMode = .byWordWrapping
+        descriptionLabel.numberOfLines = 0
+        
         loadItem()
-        updateColor()
+        updateButtons()
         
         do {
             let audioPath = Bundle.main.path(forResource: "timerDone", ofType: ".mp3")
@@ -95,10 +98,22 @@ class CurrentItemViewController: UIViewController, SideEditItemDelegate {
         }
     }
     
-    func updateColor() {
+    func updateButtons() {
+        
         numberLabel.textColor = UIColor(hex: selectedItem!.color)
         startTimerButton.backgroundColor = UIColor(hex: selectedItem!.color)
         stopTimerButton.backgroundColor = UIColor(hex: selectedItem!.color)
+        
+        startTimerButton.setImage(#imageLiteral(resourceName: "play_white1"), for: .normal)
+        startTimerButton.contentMode = .center
+        startTimerButton.imageView?.contentMode = .scaleAspectFit
+        
+        stopTimerButton.setImage(#imageLiteral(resourceName: "stop_white1"), for: .normal)
+        stopTimerButton.contentMode = .center
+        startTimerButton.imageView?.contentMode = .scaleAspectFit
+        
+        stopTimerButton.isHidden = true
+        
     }
     
     @IBAction func startTimerPressed(_ sender: UIButton) {
@@ -109,8 +124,8 @@ class CurrentItemViewController: UIViewController, SideEditItemDelegate {
             cycleCounter = 0
         }
         
-        startTimerButton.isEnabled = false
-        startTimerButton.backgroundColor = UIColor(hex: selectedItem!.color)!.withAlphaComponent(0.5)
+        startTimerButton.isHidden = true
+        stopTimerButton.isHidden = false
         
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(CurrentItemViewController.counter), userInfo: nil, repeats: true)
         
@@ -144,8 +159,8 @@ class CurrentItemViewController: UIViewController, SideEditItemDelegate {
         
         updateTime(seconds: seconds)
 
-        startTimerButton.isEnabled = true
-        startTimerButton.backgroundColor? = UIColor(hex: selectedItem!.color)!
+        stopTimerButton.isHidden = true
+        startTimerButton.isHidden = false
         
         audioPlayer.stop()
         
@@ -159,8 +174,12 @@ class CurrentItemViewController: UIViewController, SideEditItemDelegate {
         
         let (_, m, s) = secondsToHoursMinutesSeconds(seconds: seconds)
         
-        secondsLabel.text = (s < 10 ) ? ": 0" + String(s) : ": " + String(s)
-        minutesLabel.text = (m < 10) ? "0" + String(m) : String(m)
+        
+        
+        timerSeconds = (s < 10 ) ? "0" + String(s) : String(s)
+        timerMinutes = (m < 10) ? "0" + String(m) : String(m)
+        
+        timerLabel.text = timerMinutes + " : " + timerSeconds
     }
     
     

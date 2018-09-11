@@ -122,6 +122,7 @@ class ItemTableViewController: UITableViewController, SideAddItemDelegate {
             
             let destinationVC = segue.destination as! AddItemViewController
             destinationVC.addDelegate = self
+            destinationVC.categoryColor = selectedCategory?.color
             
         case "goToCurrentItem":
             let destinationVC = segue.destination as! CurrentItemViewController

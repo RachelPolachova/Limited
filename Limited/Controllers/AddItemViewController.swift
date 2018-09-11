@@ -15,17 +15,30 @@ protocol SideAddItemDelegate {
 class AddItemViewController: UIViewController {
 
     var addDelegate : SideAddItemDelegate!
+    var categoryColor : String!
     
     @IBOutlet weak var nameOfItem: UITextField!
     @IBOutlet weak var descriptionOfItem: UITextView!
+    @IBOutlet weak var addButton: UIButton!
     
     
+    var originalHeightAddButton : CGFloat = 0
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        updateButtons()
+        
+        self.hideKeyboardWhenTappedAround()
+        
+    }
+    
+    
+    // MARK : - UI
+    
+    func updateButtons() {
+        originalHeightAddButton = addButton.frame.origin.y
+        addButton.setTitleColor(UIColor(hex: categoryColor), for: .normal)
     }
 
     @IBAction func addButtonPressed(_ sender: UIButton) {
@@ -43,7 +56,5 @@ class AddItemViewController: UIViewController {
         }
         
     }
-    @IBAction func cancelButtonPressed(_ sender: UIButton) {
-        dismiss(animated: true, completion: nil)
-    }
+    
 }
