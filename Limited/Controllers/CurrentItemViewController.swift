@@ -16,12 +16,14 @@ class CurrentItemViewController: UIViewController, SideEditItemDelegate {
     @IBOutlet weak var numberLabel: UILabel!
     @IBOutlet weak var currentItemBarNavigator: UINavigationItem!
     @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var importantLabel: UILabel!
+    @IBOutlet weak var timeForLabel: UILabel!
     
     
     @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var startTimerButton: UIButton!
     @IBOutlet weak var stopTimerButton: UIButton!
+    
+    var work : Bool = true
     
     var seconds = 15
     var timer = Timer()
@@ -47,6 +49,10 @@ class CurrentItemViewController: UIViewController, SideEditItemDelegate {
         
         loadItem()
         updateButtons()
+        
+        
+        timeForLabel.text = (work == true) ? "Time for work!" : "Time for break!"
+        
         
         do {
             let audioPath = Bundle.main.path(forResource: "timerDone", ofType: ".mp3")
@@ -82,8 +88,6 @@ class CurrentItemViewController: UIViewController, SideEditItemDelegate {
     }
     
     func loadItem() {
-        importantLabel.text = selectedItem!.isImportant ? "Important" : "Not important"
-        
         
         if let desc = selectedItem?.itemDescription {
             descriptionLabel.text = desc
@@ -96,6 +100,7 @@ class CurrentItemViewController: UIViewController, SideEditItemDelegate {
         } else {
             numberLabel.text = "0"
         }
+        
     }
     
     func updateButtons() {
@@ -140,20 +145,33 @@ class CurrentItemViewController: UIViewController, SideEditItemDelegate {
             timer.invalidate()
             audioPlayer.play()
             
-            do {
-                try realm.write {
-                    selectedItem?.numberOfDone += 1
+            if work == true {
+                do {
+                    try realm.write {
+                        selectedItem?.numberOfDone += 1
+                    }
+                } catch {
+                    print("Error updating numberOfDone after timer is done: \(error)")
                 }
-            } catch {
-                print("Error updating numberOfDone after timer is done: \(error)")
+                loadItem()
             }
-            loadItem()
+            
         }
     }
     
     @IBAction func stopTimerPressed(_ sender: UIButton) {
         
-        seconds = (cycleCounter < 4) ? 15 : 5
+//        seconds = (cycleCounter < 4) ? 15 : 5
+        
+        if cycleCounter < 4 {
+            seconds = 15
+            work = true
+            timeForLabel.text = "Time for work!"
+        } else {
+            seconds = 5
+            work = false
+            timeForLabel.text = "Time for break!"
+        }
 
         timer.invalidate()
         
