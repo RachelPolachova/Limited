@@ -14,6 +14,7 @@ class ItemTableViewController: UITableViewController, SideAddItemDelegate {
 
     
     var toDoItems : Results<Item>? = nil
+    var plannedItems = [Item]()
     let realm = try! Realm()
     @IBOutlet weak var barNavigation: UINavigationItem!
     
@@ -40,17 +41,23 @@ class ItemTableViewController: UITableViewController, SideAddItemDelegate {
     // MARK: - TableView methods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return toDoItems?.count ?? 1
+        print(plannedItems.count)
+        return plannedItems.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as! ItemTableViewCell
         
-        if let item = toDoItems?[indexPath.row] {
+        
+        if plannedItems.count != 0 {
+            let item = plannedItems[indexPath.row]
             cell.setItem(item: item)
         } else {
-            cell.textLabel?.text = "No Items Added"
+            cell.textLabel?.text = "No items."
         }
+        
+        
+        print("return cell")
         
         return cell
         
@@ -66,7 +73,7 @@ class ItemTableViewController: UITableViewController, SideAddItemDelegate {
         let action = UIContextualAction(style: .normal, title: "Delete") { (action, view, completion) in
             do {
                 try self.realm.write {
-                    self.realm.delete(self.toDoItems![indexPath.row])
+                    self.realm.delete(self.plannedItems[indexPath.row])
                     self.loadItems()
                 }
             } catch {
@@ -86,13 +93,14 @@ class ItemTableViewController: UITableViewController, SideAddItemDelegate {
     }
     
     func doneAction(at indexPath: IndexPath) -> UIContextualAction {
-        let todo = toDoItems![indexPath.row]
+        let todo = plannedItems[indexPath.row]
         let action = UIContextualAction(style: .normal, title: "Done") { (action, view, completetion) in
             view.backgroundColor = .red
             
             do {
                 try self.realm.write {
                     todo.isDone = true
+                    self.loadItems()
                 }
                 self.tableView.reloadData()
             } catch {
@@ -104,6 +112,7 @@ class ItemTableViewController: UITableViewController, SideAddItemDelegate {
         action.image = #imageLiteral(resourceName: "done")
         action.backgroundColor = UIColor(hex: "45bc2d")
         
+        print("doneAction")
         
         return action
     }
@@ -127,7 +136,7 @@ class ItemTableViewController: UITableViewController, SideAddItemDelegate {
         case "goToCurrentItem":
             let destinationVC = segue.destination as! CurrentItemViewController
             if let indexPath = tableView.indexPathForSelectedRow {
-                destinationVC.selectedItem = toDoItems?[indexPath.row]
+                destinationVC.selectedItem = plannedItems[indexPath.row]
             }
         default:
             break
@@ -139,6 +148,14 @@ class ItemTableViewController: UITableViewController, SideAddItemDelegate {
     
     func loadItems() {
         toDoItems = selectedCategory?.items.sorted(byKeyPath: "name")
+        
+        plannedItems = [Item]()
+        
+        for i in 0..<selectedCategory!.items.count {
+            if selectedCategory?.items[i].isDone == false {
+                plannedItems.append(selectedCategory!.items[i])
+            }
+        }
         tableView.reloadData()
     }
     
