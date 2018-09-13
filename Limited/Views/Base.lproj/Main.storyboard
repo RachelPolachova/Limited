@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="hgS-ms-rSS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="wmG-hC-Eba">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -150,7 +150,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="description" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vqd-5u-pUc">
-                                <rect key="frame" x="37.5" y="542" width="300" height="100"/>
+                                <rect key="frame" x="37.5" y="493" width="300" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="F5T-If-YXE"/>
                                     <constraint firstAttribute="height" constant="100" id="g6J-fq-9Hb"/>
@@ -265,7 +265,7 @@
                                 <rect key="frame" x="301" y="125" width="51" height="31"/>
                             </switch>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3yi-0F-Ywz">
-                                <rect key="frame" x="157" y="587" width="61" height="30"/>
+                                <rect key="frame" x="157" y="538" width="61" height="30"/>
                                 <state key="normal" title="Edit item">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
@@ -297,6 +297,110 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aZk-0t-G0G" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3268" y="135"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="9I6-8I-CUo">
+            <objects>
+                <tabBarController id="wmG-hC-Eba" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="iaf-nE-ltd">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="selectedImageTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="hgS-ms-rSS" kind="relationship" relationship="viewControllers" id="2lT-EB-Eom"/>
+                        <segue destination="3jU-PE-koA" kind="relationship" relationship="viewControllers" id="a0c-Jq-esT"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pUa-ip-C4q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="215" y="-848"/>
+        </scene>
+        <!--Done-->
+        <scene sceneID="SqM-Av-haI">
+            <objects>
+                <navigationController id="3jU-PE-koA" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Done" image="done" id="l4L-CS-jnK"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="xsk-PV-A9d">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="I4U-Pw-xHg">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
+                    <connections>
+                        <segue destination="XdC-jT-s3B" kind="relationship" relationship="rootViewController" id="9FJ-JE-94i"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sJd-L0-opC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1062" y="-1593"/>
+        </scene>
+        <!--Done-->
+        <scene sceneID="4Ie-jS-nIa">
+            <objects>
+                <tableViewController title="Done" id="XdC-jT-s3B" customClass="DoneCategoryTableViewController" customModule="Limited" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="cld-14-8wC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="categoryCell" id="PpR-ef-eYa">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PpR-ef-eYa" id="VY0-ii-1bp">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="XdC-jT-s3B" id="w0w-s1-LDf"/>
+                            <outlet property="delegate" destination="XdC-jT-s3B" id="Pfr-uI-LCY"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Done categories" id="1h4-Pq-UGv"/>
+                    <connections>
+                        <segue destination="fYf-If-nqN" kind="show" identifier="goToDoneItem" id="4FP-lP-STA"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ree-d1-Ulg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1062" y="-848"/>
+        </scene>
+        <!--Done Item Table View Controller-->
+        <scene sceneID="KEi-BA-RWZ">
+            <objects>
+                <tableViewController id="fYf-If-nqN" customClass="DoneItemTableViewController" customModule="Limited" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Vnh-qQ-mLC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="itemCell" id="TUq-rH-bOE">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TUq-rH-bOE" id="yyr-Df-cGY">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="fYf-If-nqN" id="3zV-55-zc2"/>
+                            <outlet property="delegate" destination="fYf-If-nqN" id="HN0-Ae-3qB"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YVy-k5-xUL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1817" y="-848"/>
         </scene>
         <!--Add Category View Controller-->
         <scene sceneID="73w-El-fVe">
@@ -374,7 +478,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S6I-EB-oY6">
-                                <rect key="frame" x="141.5" y="587" width="92" height="30"/>
+                                <rect key="frame" x="141.5" y="538" width="92" height="30"/>
                                 <state key="normal" title="Add category">
                                     <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
@@ -458,7 +562,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="45v-fi-Ncy">
-                                <rect key="frame" x="137.5" y="587" width="100" height="30"/>
+                                <rect key="frame" x="137.5" y="538" width="100" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="lQo-Pg-Xyx"/>
                                 </constraints>
@@ -507,10 +611,11 @@
             </objects>
             <point key="canvasLocation" x="1817" y="1019"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Planned-->
         <scene sceneID="7Cb-hr-Gqm">
             <objects>
-                <navigationController id="hgS-ms-rSS" sceneMemberID="viewController">
+                <navigationController title="Planned" id="hgS-ms-rSS" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="To do" image="todolist" id="jwR-j6-TJi"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="lOW-qb-r4f">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -528,5 +633,9 @@
             <point key="canvasLocation" x="216" y="132"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="done" width="24" height="24"/>
+        <image name="todolist" width="24" height="24"/>
+    </resources>
     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
 </document>

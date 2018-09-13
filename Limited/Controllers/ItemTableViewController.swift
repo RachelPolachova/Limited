@@ -75,7 +75,7 @@ class ItemTableViewController: UITableViewController, SideAddItemDelegate {
         }
         
         action.backgroundColor = .red
-        action.image = #imageLiteral(resourceName: "wastebin24.png")
+        action.image = #imageLiteral(resourceName: "garbage")
         
         return action
     }
@@ -92,7 +92,7 @@ class ItemTableViewController: UITableViewController, SideAddItemDelegate {
             
             do {
                 try self.realm.write {
-                    todo.numberOfDone += 1
+                    todo.isDone = true
                 }
                 self.tableView.reloadData()
             } catch {
@@ -101,7 +101,7 @@ class ItemTableViewController: UITableViewController, SideAddItemDelegate {
             completetion(true)
         }
         
-        action.image = #imageLiteral(resourceName: "done24.png")
+        action.image = #imageLiteral(resourceName: "done")
         action.backgroundColor = UIColor(hex: "45bc2d")
         
         

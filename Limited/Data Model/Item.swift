@@ -17,6 +17,7 @@ class Item: Object {
     @objc dynamic var color : String = "3F3F3F"
     @objc dynamic var numberOfDone : Int = 0
     @objc dynamic var isImportant : Bool = false
+    @objc dynamic var isDone : Bool = false
     
     var parentCategory = LinkingObjects(fromType: Category.self, property: "items")
     

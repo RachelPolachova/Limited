@@ -23,6 +23,8 @@
 		CC5471CD214531E200C8F9D1 /* EditCurrentItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5471CC214531E200C8F9D1 /* EditCurrentItemViewController.swift */; };
 		CC6C73EE214666FF00ED3D12 /* ItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6C73ED214666FF00ED3D12 /* ItemTableViewCell.swift */; };
 		CC6C73F02146B13F00ED3D12 /* timerDone.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CC6C73EF2146B13F00ED3D12 /* timerDone.mp3 */; };
+		CCA10CE4214AC64300051BF5 /* DoneCategoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA10CE3214AC64300051BF5 /* DoneCategoryTableViewController.swift */; };
+		CCA10CE6214ACB1A00051BF5 /* DoneItemTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA10CE5214ACB1A00051BF5 /* DoneItemTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +48,8 @@
 		CC5471CC214531E200C8F9D1 /* EditCurrentItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCurrentItemViewController.swift; sourceTree = "<group>"; };
 		CC6C73ED214666FF00ED3D12 /* ItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTableViewCell.swift; sourceTree = "<group>"; };
 		CC6C73EF2146B13F00ED3D12 /* timerDone.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = timerDone.mp3; sourceTree = "<group>"; };
+		CCA10CE3214AC64300051BF5 /* DoneCategoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneCategoryTableViewController.swift; sourceTree = "<group>"; };
+		CCA10CE5214ACB1A00051BF5 /* DoneItemTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneItemTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +115,8 @@
 				CC5471CA214516F400C8F9D1 /* AddItemViewController.swift */,
 				CC5471C82145127000C8F9D1 /* CurrentItemViewController.swift */,
 				CC5471CC214531E200C8F9D1 /* EditCurrentItemViewController.swift */,
+				CCA10CE3214AC64300051BF5 /* DoneCategoryTableViewController.swift */,
+				CCA10CE5214ACB1A00051BF5 /* DoneItemTableViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -270,6 +276,8 @@
 				CC5471C92145127000C8F9D1 /* CurrentItemViewController.swift in Sources */,
 				CC6C73EE214666FF00ED3D12 /* ItemTableViewCell.swift in Sources */,
 				CC5471CD214531E200C8F9D1 /* EditCurrentItemViewController.swift in Sources */,
+				CCA10CE6214ACB1A00051BF5 /* DoneItemTableViewController.swift in Sources */,
+				CCA10CE4214AC64300051BF5 /* DoneCategoryTableViewController.swift in Sources */,
 				CC2CF62F2142DF9000F9EDB6 /* AddCategoryViewController.swift in Sources */,
 				CC2CF6162142CDAC00F9EDB6 /* AppDelegate.swift in Sources */,
 				CC2CF6282142CFDC00F9EDB6 /* CategoryTableViewController.swift in Sources */,
