@@ -25,11 +25,14 @@ class CurrentItemViewController: UIViewController, SideEditItemDelegate {
     
     var work : Bool = true
     
-    var seconds = 15
+    var seconds = 10
     var timer = Timer()
     var cycleCounter : Int = 0
     var timerSeconds = "0"
     var timerMinutes = "0"
+    let workTime = 1500
+    let shortBreak = 300
+    let longBreak = 1500
     
     var audioPlayer = AVAudioPlayer()
     
@@ -44,35 +47,41 @@ class CurrentItemViewController: UIViewController, SideEditItemDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        loadItem()
+        setupUI()
+        setAudioPlayer()
+        
+    }
+    
+    //    MARK: - Setup methods
+    
+    func setupUI() {
         descriptionLabel.lineBreakMode = .byWordWrapping
         descriptionLabel.numberOfLines = 0
-        
-        loadItem()
-        updateButtons()
-        
-        
         timeForLabel.text = (work == true) ? "Time for work!" : "Time for break!"
         
+        numberLabel.textColor = UIColor(hex: selectedItem!.color)
+        startTimerButton.backgroundColor = UIColor(hex: selectedItem!.color)
+        stopTimerButton.backgroundColor = UIColor(hex: selectedItem!.color)
         
+        startTimerButton.setImage(#imageLiteral(resourceName: "play_white1"), for: .normal)
+        startTimerButton.contentMode = .center
+        startTimerButton.imageView?.contentMode = .scaleAspectFit
+        
+        stopTimerButton.setImage(#imageLiteral(resourceName: "stop_white1"), for: .normal)
+        stopTimerButton.contentMode = .center
+        startTimerButton.imageView?.contentMode = .scaleAspectFit
+        
+        stopTimerButton.isHidden = true
+    }
+    
+    func setAudioPlayer() {
         do {
             let audioPath = Bundle.main.path(forResource: "timerDone", ofType: ".mp3")
             try audioPlayer = AVAudioPlayer(contentsOf: URL(fileURLWithPath: audioPath!))
-            
         } catch {
-            print("Error print playing alarm when timer is done: \(error)")
+            print("Error setting audioPlayer: \(error)")
         }
-        
-    }
-
-    @IBAction func editButtonPressed(_ sender: UIBarButtonItem) {
-        performSegue(withIdentifier: "goEditItem", sender: self)
-    }
-    
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destinationVC = segue.destination as! EditCurrentItemViewController
-        destinationVC.editDelegate = self
-        destinationVC.isImportant = selectedItem!.isImportant
     }
     
     func itemEdited(isImportant: Bool) {
@@ -82,9 +91,7 @@ class CurrentItemViewController: UIViewController, SideEditItemDelegate {
         } catch {
             print("Error editing item: \(error)")
         }
-        
         loadItem()
-        
     }
     
     func loadItem() {
@@ -103,31 +110,82 @@ class CurrentItemViewController: UIViewController, SideEditItemDelegate {
         
     }
     
-    func updateButtons() {
+    @objc func counter() {
+        seconds -= 1
         
-        numberLabel.textColor = UIColor(hex: selectedItem!.color)
-        startTimerButton.backgroundColor = UIColor(hex: selectedItem!.color)
-        stopTimerButton.backgroundColor = UIColor(hex: selectedItem!.color)
+        updateTime(seconds: seconds)
         
-        startTimerButton.setImage(#imageLiteral(resourceName: "play_white1"), for: .normal)
-        startTimerButton.contentMode = .center
-        startTimerButton.imageView?.contentMode = .scaleAspectFit
+        if (seconds == 0) {
+            stopTimer()
+        }
+    }
+    
+    
+    func updateTime(seconds: Int) {
         
-        stopTimerButton.setImage(#imageLiteral(resourceName: "stop_white1"), for: .normal)
-        stopTimerButton.contentMode = .center
-        startTimerButton.imageView?.contentMode = .scaleAspectFit
+        let (_, m, s) = secondsToHoursMinutesSeconds(seconds: seconds)
         
-        stopTimerButton.isHidden = true
-        
+        timerSeconds = (s < 10 ) ? "0" + String(s) : String(s)
+        timerMinutes = (m < 10) ? "0" + String(m) : String(m)
+        timerLabel.text = timerMinutes + " : " + timerSeconds
+    }
+    
+    //    MARK: - Buttons and segue methods
+    
+    @IBAction func editButtonPressed(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "goEditItem", sender: self)
     }
     
     @IBAction func startTimerPressed(_ sender: UIButton) {
         
-        if cycleCounter < 4 {
-            cycleCounter += 1
+        startTimer()
+        
+    }
+    
+    func stopTimer() {
+        
+        timer.invalidate()
+        audioPlayer.play()
+        
+        print("stop timer method. cyclecounter: \(cycleCounter)")
+        
+        
+        if (work) {
+            if cycleCounter < 4 {
+                cycleCounter += 1
+                // short break
+                seconds = shortBreak
+                timeForLabel.text = "time for short break!"
+                work = false
+            } else {
+                cycleCounter = 0
+                //long break
+                seconds = longBreak
+                timeForLabel.text = "Time for long break!"
+                work = false
+            }
+            do {
+                try realm.write {
+                    selectedItem?.numberOfDone += 1
+                }
+            } catch {
+                print("Error updating numberOfDone after timer is done: \(error)")
+            }
+            loadItem()
+            
         } else {
-            cycleCounter = 0
+            work = true
+            seconds = workTime
+            timeForLabel.text = "Time for work!"
         }
+        
+        stopTimerButton.isHidden = true
+        startTimerButton.isHidden = false
+        updateTime(seconds: seconds)
+        
+    }
+    
+    func startTimer() {
         
         startTimerButton.isHidden = true
         stopTimerButton.isHidden = false
@@ -136,69 +194,24 @@ class CurrentItemViewController: UIViewController, SideEditItemDelegate {
         
     }
     
-    @objc func counter() {
-        seconds -= 1
-        
-        updateTime(seconds: seconds)
-        
-        if (seconds == 0) {
-            timer.invalidate()
-            audioPlayer.play()
-            
-            if work == true {
-                do {
-                    try realm.write {
-                        selectedItem?.numberOfDone += 1
-                    }
-                } catch {
-                    print("Error updating numberOfDone after timer is done: \(error)")
-                }
-                loadItem()
-            }
-            
-        }
-    }
-    
     @IBAction func stopTimerPressed(_ sender: UIButton) {
         
-//        seconds = (cycleCounter < 4) ? 15 : 5
-        
-        if cycleCounter < 4 {
-            seconds = 15
-            work = true
-            timeForLabel.text = "Time for work!"
-        } else {
-            seconds = 5
-            work = false
-            timeForLabel.text = "Time for break!"
-        }
-
         timer.invalidate()
         
+        //skips the break.
+        seconds = workTime
+        
         updateTime(seconds: seconds)
-
+        
         stopTimerButton.isHidden = true
         startTimerButton.isHidden = false
         
-        audioPlayer.stop()
-        
     }
     
-    func secondsToHoursMinutesSeconds (seconds : Int) -> (Int, Int, Int) {
-        return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationVC = segue.destination as! EditCurrentItemViewController
+        destinationVC.editDelegate = self
+        destinationVC.isImportant = selectedItem!.isImportant
     }
-    
-    func updateTime(seconds: Int) {
-        
-        let (_, m, s) = secondsToHoursMinutesSeconds(seconds: seconds)
-        
-        
-        
-        timerSeconds = (s < 10 ) ? "0" + String(s) : String(s)
-        timerMinutes = (m < 10) ? "0" + String(m) : String(m)
-        
-        timerLabel.text = timerMinutes + " : " + timerSeconds
-    }
-    
     
 }

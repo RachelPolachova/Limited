@@ -37,13 +37,10 @@ class AddCategoryViewController: UIViewController  {
         super.viewDidLoad()
         UINavigationBar.appearance().backgroundColor = UIColor.green
         self.hideKeyboardWhenTappedAround()
-
-        // Do any additional setup after loading the view.
     }
 
 
     @IBAction func addDoneButtonPressed(_ sender: UIButton) {
-        
         
         if let name = nameTextField?.text, !name.isEmpty {
             
@@ -56,10 +53,7 @@ class AddCategoryViewController: UIViewController  {
             let action = UIAlertAction(title: "OK", style: .default) { (alert) in }
             alert.addAction(action)
             present(alert, animated: true, completion: nil)
-
         }
-        
-        
     }
     
     @IBAction func redSliderAction(_ sender: UISlider) {
@@ -100,16 +94,6 @@ class AddCategoryViewController: UIViewController  {
 }
 
 
-extension UIViewController {
-    func hideKeyboardWhenTappedAround() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-    }
-    
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
-    }
-}
+
 
 

@@ -10,18 +10,15 @@ import UIKit
 import RealmSwift
 
 class ItemTableViewController: UITableViewController, SideAddItemDelegate {
-
-
+    
+    @IBOutlet weak var barNavigation: UINavigationItem!
     
     var toDoItems : Results<Item>? = nil
     var plannedItems = [Item]()
     let realm = try! Realm()
-    @IBOutlet weak var barNavigation: UINavigationItem!
-    
     var selectedCategory : Category? {
         didSet {
             barNavigation.title = selectedCategory?.name
-            
         }
     }
     
@@ -34,7 +31,6 @@ class ItemTableViewController: UITableViewController, SideAddItemDelegate {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.barTintColor = UIColor(hex: selectedCategory!.color)
         self.navigationController?.navigationBar.tintColor = .white
-
     }
     
     
@@ -48,7 +44,6 @@ class ItemTableViewController: UITableViewController, SideAddItemDelegate {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as! ItemTableViewCell
         
-        
         if plannedItems.count != 0 {
             let item = plannedItems[indexPath.row]
             cell.setItem(item: item)
@@ -56,11 +51,7 @@ class ItemTableViewController: UITableViewController, SideAddItemDelegate {
             cell.textLabel?.text = "No items."
         }
         
-        
-        print("return cell")
-        
         return cell
-        
     }
 
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -145,6 +136,7 @@ class ItemTableViewController: UITableViewController, SideAddItemDelegate {
     }
     
     
+    //    MARK: - Realm methods
     
     func loadItems() {
         toDoItems = selectedCategory?.items.sorted(byKeyPath: "name")

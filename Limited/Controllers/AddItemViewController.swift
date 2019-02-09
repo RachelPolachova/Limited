@@ -27,8 +27,7 @@ class AddItemViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        updateButtons()
-        
+        setUI()
         self.hideKeyboardWhenTappedAround()
         
     }
@@ -36,7 +35,7 @@ class AddItemViewController: UIViewController {
     
     // MARK : - UI
     
-    func updateButtons() {
+    func setUI() {
         originalHeightAddButton = addButton.frame.origin.y
         addButton.setTitleColor(UIColor(hex: categoryColor), for: .normal)
     }
@@ -52,9 +51,7 @@ class AddItemViewController: UIViewController {
             let action = UIAlertAction(title: "OK", style: .default) { (alert) in }
             alert.addAction(action)
             present(alert, animated: true, completion: nil)
-        
         }
-        
     }
     
 }
