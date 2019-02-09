@@ -37,7 +37,6 @@ class ItemTableViewController: UITableViewController, SideAddItemDelegate {
     // MARK: - TableView methods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(plannedItems.count)
         return plannedItems.count
     }
     
@@ -73,7 +72,7 @@ class ItemTableViewController: UITableViewController, SideAddItemDelegate {
         }
         
         action.backgroundColor = .red
-        action.image = #imageLiteral(resourceName: "garbage")
+        action.image = #imageLiteral(resourceName: "trash")
         
         return action
     }
@@ -99,12 +98,8 @@ class ItemTableViewController: UITableViewController, SideAddItemDelegate {
             }
             completetion(true)
         }
-        
-        action.image = #imageLiteral(resourceName: "done")
+        action.image = #imageLiteral(resourceName: "checkmark")
         action.backgroundColor = UIColor(hex: "45bc2d")
-        
-        print("doneAction")
-        
         return action
     }
     

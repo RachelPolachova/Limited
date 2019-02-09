@@ -108,7 +108,7 @@ class CategoryTableViewController: UITableViewController, SideAddDelegate {
         }
         
         action.backgroundColor = .red
-        action.image = #imageLiteral(resourceName: "garbage")
+        action.image = #imageLiteral(resourceName: "trash")
         
         return action
     }

@@ -19,29 +19,16 @@ class AddItemViewController: UIViewController {
     
     @IBOutlet weak var nameOfItem: UITextField!
     @IBOutlet weak var descriptionOfItem: UITextView!
-    @IBOutlet weak var addButton: UIButton!
     
     
     var originalHeightAddButton : CGFloat = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setUI()
         self.hideKeyboardWhenTappedAround()
-        
     }
     
-    
-    // MARK : - UI
-    
-    func setUI() {
-        originalHeightAddButton = addButton.frame.origin.y
-        addButton.setTitleColor(UIColor(hex: categoryColor), for: .normal)
-    }
-
-    @IBAction func addButtonPressed(_ sender: UIButton) {
-        
+    @IBAction func addButtonPressed(_ sender: Any) {
         if let nameItem = nameOfItem.text, let descriptionItem = descriptionOfItem.text {
             addDelegate.itemAdded(name: nameItem, description: descriptionItem)
             _ = navigationController?.popViewController(animated: true)

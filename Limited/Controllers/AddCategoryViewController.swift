@@ -40,21 +40,22 @@ class AddCategoryViewController: UIViewController  {
     }
 
 
-    @IBAction func addDoneButtonPressed(_ sender: UIButton) {
-        
-        if let name = nameTextField?.text, !name.isEmpty {
+    @IBAction func addButtonPressed(_ sender: Any) {
             
-            addDelegate.categoryAdded(name: nameTextField!.text!, color: categoryColor!)
-            _ = navigationController?.popViewController(animated: true)
-
-        } else {
-
-            let alert = UIAlertController(title: "Name your category", message: nil, preferredStyle: .alert)
-            let action = UIAlertAction(title: "OK", style: .default) { (alert) in }
-            alert.addAction(action)
-            present(alert, animated: true, completion: nil)
-        }
+            if let name = nameTextField?.text, !name.isEmpty {
+                
+                addDelegate.categoryAdded(name: nameTextField!.text!, color: categoryColor!)
+                _ = navigationController?.popViewController(animated: true)
+                
+            } else {
+                
+                let alert = UIAlertController(title: "Name your category", message: nil, preferredStyle: .alert)
+                let action = UIAlertAction(title: "OK", style: .default) { (alert) in }
+                alert.addAction(action)
+                present(alert, animated: true, completion: nil)
+            }
     }
+    
     
     @IBAction func redSliderAction(_ sender: UISlider) {
         changeColor()

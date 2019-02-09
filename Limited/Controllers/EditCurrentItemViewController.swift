@@ -21,10 +21,6 @@ class EditCurrentItemViewController: UIViewController {
     @IBOutlet weak var importantSwitch: UISwitch!
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        print(isImportant)
-        
-        // Do any additional setup after loading the view.
         
         if isImportant == true {
             importantSwitch.isOn = true
@@ -36,20 +32,16 @@ class EditCurrentItemViewController: UIViewController {
     
     @IBAction func isImportantSwitched(_ sender: UISwitch) {
         if (sender.isOn == true) {
-            print("on")
             isImportant = true
         } else {
-            print("off")
             isImportant = false
         }
     }
     
-    @IBAction func addButtonPressed(_ sender: UIButton) {
+    @IBAction func editButtonPressed(_ sender: Any) {
         editDelegate.itemEdited(isImportant: isImportant)
         _ = navigationController?.popViewController(animated: true)
     }
-    
-    
     
 }
 

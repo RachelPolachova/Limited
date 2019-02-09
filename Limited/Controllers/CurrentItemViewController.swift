@@ -25,7 +25,6 @@ class CurrentItemViewController: UIViewController, SideEditItemDelegate {
     
     var work : Bool = true
     
-    var seconds = 10
     var timer = Timer()
     var cycleCounter : Int = 0
     var timerSeconds = "0"
@@ -33,6 +32,7 @@ class CurrentItemViewController: UIViewController, SideEditItemDelegate {
     let workTime = 1500
     let shortBreak = 300
     let longBreak = 1500
+    var seconds = 1500
     
     var audioPlayer = AVAudioPlayer()
     
@@ -60,17 +60,11 @@ class CurrentItemViewController: UIViewController, SideEditItemDelegate {
         descriptionLabel.numberOfLines = 0
         timeForLabel.text = (work == true) ? "Time for work!" : "Time for break!"
         
-        numberLabel.textColor = UIColor(hex: selectedItem!.color)
-        startTimerButton.backgroundColor = UIColor(hex: selectedItem!.color)
-        stopTimerButton.backgroundColor = UIColor(hex: selectedItem!.color)
-        
-        startTimerButton.setImage(#imageLiteral(resourceName: "play_white1"), for: .normal)
-        startTimerButton.contentMode = .center
-        startTimerButton.imageView?.contentMode = .scaleAspectFit
-        
-        stopTimerButton.setImage(#imageLiteral(resourceName: "stop_white1"), for: .normal)
-        stopTimerButton.contentMode = .center
-        startTimerButton.imageView?.contentMode = .scaleAspectFit
+        if let item = selectedItem {
+            numberLabel.textColor = UIColor(hex: item.color)
+            startTimerButton.setTitleColor(UIColor(hex: item.color), for: .normal)
+            stopTimerButton.setTitleColor(UIColor(hex: item.color), for: .normal)
+        }
         
         stopTimerButton.isHidden = true
     }
@@ -96,8 +90,8 @@ class CurrentItemViewController: UIViewController, SideEditItemDelegate {
     
     func loadItem() {
         
-        if let desc = selectedItem?.itemDescription {
-            descriptionLabel.text = desc
+        if let description = selectedItem?.itemDescription {
+            descriptionLabel.text = description
         } else {
             descriptionLabel.text = "No description."
         }
@@ -112,11 +106,9 @@ class CurrentItemViewController: UIViewController, SideEditItemDelegate {
     
     @objc func counter() {
         seconds -= 1
-        
         updateTime(seconds: seconds)
-        
         if (seconds == 0) {
-            stopTimer()
+            finishTimer()
         }
     }
     
@@ -130,25 +122,19 @@ class CurrentItemViewController: UIViewController, SideEditItemDelegate {
         timerLabel.text = timerMinutes + " : " + timerSeconds
     }
     
-    //    MARK: - Buttons and segue methods
-    
-    @IBAction func editButtonPressed(_ sender: UIBarButtonItem) {
-        performSegue(withIdentifier: "goEditItem", sender: self)
-    }
-    
-    @IBAction func startTimerPressed(_ sender: UIButton) {
+    func startTimer() {
         
-        startTimer()
+        startTimerButton.isHidden = true
+        stopTimerButton.isHidden = false
+        
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(CurrentItemViewController.counter), userInfo: nil, repeats: true)
         
     }
     
-    func stopTimer() {
+    func finishTimer() {
         
         timer.invalidate()
         audioPlayer.play()
-        
-        print("stop timer method. cyclecounter: \(cycleCounter)")
-        
         
         if (work) {
             if cycleCounter < 4 {
@@ -185,24 +171,24 @@ class CurrentItemViewController: UIViewController, SideEditItemDelegate {
         
     }
     
-    func startTimer() {
-        
-        startTimerButton.isHidden = true
-        stopTimerButton.isHidden = false
-        
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(CurrentItemViewController.counter), userInfo: nil, repeats: true)
-        
+    //    MARK: - Buttons and segue methods
+    
+    @IBAction func editButtonPressed(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "goEditItem", sender: self)
     }
     
+    @IBAction func startTimerPressed(_ sender: UIButton) {
+        startTimer()
+    }
+    
+    /// Timer will be stoped. In case, that break mode is on, break will be skipped.
+    ///
+    /// - Parameter sender: <#sender description#>
     @IBAction func stopTimerPressed(_ sender: UIButton) {
         
         timer.invalidate()
-        
-        //skips the break.
         seconds = workTime
-        
         updateTime(seconds: seconds)
-        
         stopTimerButton.isHidden = true
         startTimerButton.isHidden = false
         

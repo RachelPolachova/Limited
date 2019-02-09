@@ -11,12 +11,8 @@ import RealmSwift
 
 class DoneCategoryTableViewController: UITableViewController {
 
-    let array = ["ahoj", "jak sa mas?", "just trying if cell works"]
-    
     let realm = try! Realm()
-    
-    var categories : Results<Category>? = nil
-    
+    var categories : Results<Category>? = nil    
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.barTintColor = .darkGray
